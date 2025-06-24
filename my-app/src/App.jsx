@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import Sidebar from './components/sidebar/Sidebar'
+import Welcome from './components/welcome/Welcome'
 import Home from './components/home/Home'
 import Portfolio from './components/portfolio/Portfolio'
 import Contact  from './components/contact/Contact'
@@ -14,6 +15,7 @@ function App() {
     <>
     <Sidebar />
     <main className='main'>
+    <Welcome />
     <Home />
     <About />
     <Resume />

@@ -1,4 +1,4 @@
-import Work1 from "../../assets/portfolio/1.png";
+import Work1 from "../../assets/portfolio/1.jpg";
 import Work2 from "../../assets/portfolio/2.png";
 import Work3 from "../../assets/portfolio/3.png";
 

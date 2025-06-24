@@ -279,4 +279,83 @@
     color: #0366d6;
     font-weight: bold;
   }
-  
+.portfolio {
+  display: flex;
+  height: 100vh;  /* 保持全屏高度 */
+  width: 100%;    /* 改为100%而不是100vw */
+  /* 删除 position: fixed */
+  /* 删除 top: 0 */
+  /* 删除 left: 0 */
+  /* 保留 z-index 但降低数值 */
+  z-index: 1;
+  background: #fff;
+  overflow: hidden;
+}
+
+.portfolio-preview {
+  flex: 1;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.portfolio-preview img {
+  max-width: 95%;
+  max-height: 95%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.portfolio-list {
+  flex: 1.5;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  background: #fff;
+  height: 100vh;
+  overscroll-behavior: contain;
+}
+
+.portfolio-item {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  border-bottom: 1px solid #eee;
+  padding: 2rem;
+  flex-shrink: 0;
+}
+
+.portfolio-thumbs {
+  flex: 0.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  background: #fafafa;
+  overflow-y: auto;
+  max-height: 100vh;
+  padding: 1.5rem 0;
+  touch-action: pan-y;
+}
+
+.portfolio-thumb {
+  width: 80px;          /* 从100px减小到80px */
+  height: 120px;        /* 从150px减小到120px */
+  object-fit: cover;
+  transition: transform 0.3s, opacity 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.portfolio-thumb.active {
+  transform: rotate(-8deg) scale(1.2);
+  opacity: 1;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}

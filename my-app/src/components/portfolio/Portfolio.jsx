@@ -1,164 +1,105 @@
-// import React, { useState } from 'react';
-// import "./portfolio.css"
-// import Menu from "./Menu";
+import React, { useRef, useState, useEffect } from 'react';
+import './Portfolio.css';
 
-// const Portfolio = () => {
-    
-//     const [items, setItems] = useState(Menu);
-//     const filterItem = (categoryItem) => {
-//         const updatedItems = Menu.filter((curElem) => {
-//             return curElem.category === categoryItem;
-//         });
-
-//         setItems(updatedItems);
-//     };
-
-//     return (
-//         <section className="work container" id="portfolio">
-//             <h2 className="section_title">Recent Works</h2>
-
-//             <div className="work_filters">
-//                 <span className="work_item" onClick={() => setItems(Menu)}>ALL</span>
-//                 <span className="work_item" onClick={() => filterItem("Web")}>Web</span>
-//                 <span className="work_item" onClick={() => filterItem("App")}>App</span>
-//                 <span className="work_item" onClick={() => filterItem("Design")}>Design</span>
-//             </div>
-
-//             <div className="work_container grid">
-//                 {items.map((elem) =>{
-//                     const{ id, image, title, category, link, desc} = elem;
-//                     return(
-//                         <div className="work_card" key={id}>
-//                             <div className="work_thumbnail">
-//                                 <img src={image} alt="" className="work_img" />
-//                                 <div className="work_mask"></div>
-//                             </div>
-
-//                             <span className="work_category">{category}</span>
-//                             <h3 className="work_title">{title}</h3> 
-//                             <span className='work_desc'>{desc}</span>
-                            
-//                             <a href={link} className="work_button">
-//                                 <i className="icon-link work_button-icon"></i>
-//                             </a>
-
-//                         </div>
-//                     )
-//                 })}
-//             </div>
-//         </section>
-//     )
-// }
-// export default Portfolio;
-
-import React, { useState } from 'react';
-import "./portfolio.css";
-import Menu from "./Menu";
-import WorkDetails from "./WorkDetails";
+const works = [
+  {
+    preview: 'images/preview1.jpg',
+    thumb: 'images/thumb1.jpg',
+    detail: '作品1详情',
+  },
+  {
+    preview: 'images/preview2.jpg',
+    thumb: 'images/thumb2.jpg',
+    detail: '作品2详情',
+  },
+  {
+    preview: 'images/preview2.jpg',
+    thumb: 'images/thumb2.jpg',
+    detail: '作品3详情',
+  },
+  {
+    preview: 'images/preview2.jpg',
+    thumb: 'images/thumb2.jpg',
+    detail: '作品4详情',
+  },
+  {
+    preview: 'images/preview2.jpg',
+    thumb: 'images/thumb2.jpg',
+    detail: '作品5详情',
+  },
+  {
+    preview: 'images/preview2.jpg',
+    thumb: 'images/thumb2.jpg',
+    detail: '作品6详情',
+  },
+  // 继续添加更多作品...
+];
 
 const Portfolio = () => {
-  const [items, setItems] = useState(Menu);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedWorkId, setSelectedWorkId] = useState(null);
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [current, setCurrent] = useState(0);
+  const listRef = useRef(null);
+  const thumbsRef = useRef([]);
 
-  const filterItem = (categoryItem) => {
-    const updatedItems = Menu.filter((curElem) => curElem.category === categoryItem);
-    setItems(updatedItems);
+  // 只监听中间详情区滚动
+  const handleScroll = () => {
+    const scrollTop = listRef.current.scrollTop;
+    const itemHeight = window.innerHeight;
+    const idx = Math.round(scrollTop / itemHeight);
+    setCurrent(idx);
   };
 
-  const openModal = (id) => {
-    setSelectedWorkId(id);
-    setIsModalOpen(true);
-    setShowFullDescription(false);
-    setCurrentImageIndex(0);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedWorkId(null);
-  };
-
-  const nextImage = () => {
-    if (selectedWorkId !== null) {
-      const images = WorkDetails[selectedWorkId].images;
-      setCurrentImageIndex((currentImageIndex + 1) % images.length);
+  // 点击缩略图，滚动到对应详情
+  const handleThumbClick = (idx) => {
+    setCurrent(idx);
+    if (listRef.current) {
+      listRef.current.scrollTo({
+        top: idx * window.innerHeight,
+        behavior: 'smooth',
+      });
     }
   };
-
-  const prevImage = () => {
-    if (selectedWorkId !== null) {
-      const images = WorkDetails[selectedWorkId].images;
-      setCurrentImageIndex((currentImageIndex - 1 + images.length) % images.length);
-    }
-  };
-
-  const selectedWork = selectedWorkId !== null ? WorkDetails[selectedWorkId] : null;
 
   return (
-    <section className="work container" id="portfolio">
-      <h2 className="section_title">最近の作品｜Recent Works</h2>
-
-      <div className="work_filters">
-        <span className="work_item" onClick={() => setItems(Menu)}>ALL</span>
-        <span className="work_item" onClick={() => filterItem("Web")}>Web</span>
-        <span className="work_item" onClick={() => filterItem("App")}>App</span>
-        <span className="work_item" onClick={() => filterItem("Design")}>Design</span>
+    <div className="portfolio" id="portfolio">
+      <div className="portfolio-preview">
+        <img
+          src={works[current].preview}
+          alt=""
+          style={{ maxWidth: '90%', maxHeight: '90%' }}
+        />
       </div>
-
-      <div className="work_container grid">
-        {items.map((elem) => {
-          const { id, image, title, category } = elem;
-          return (
-            <div className="work_card" key={id}>
-              <div className="work_thumbnail" onClick={() => openModal(id)}>
-                <img src={image} alt={title} className="work_img" />
-                <div className="work_mask"></div>
-              </div>
-              <span className="work_category">{category}</span>
-              <h3 className="work_title">{title}</h3>
-            </div>
-          );
-        })}
-      </div>
-
-      {isModalOpen && selectedWork && (
-        <div className="modal_overlay" onClick={closeModal}>
-          <div className="modal_content" onClick={(e) => e.stopPropagation()}>
-            <h2 className="modal_title">{selectedWork.title}</h2>
-
-            <div className="modal_image_slider">
-              <button className="nav_button" onClick={prevImage}>←</button>
-              <img
-                src={selectedWork.images[currentImageIndex]}
-                alt=""
-                className="modal_image"
-              />
-              <button className="nav_button" onClick={nextImage}>→</button>
-            </div>
-
-            <div className="modal_text_scroll">
-              <p className="toggle_desc" onClick={() => setShowFullDescription(!showFullDescription)}>
-              作品紹介（クリックで開く / 閉じる）
-              </p>
-              {showFullDescription && (
-                <p className="modal_description">{selectedWork.description}</p>
-              )}
-
-              <a
-                href={selectedWork.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="modal_github_link"
-              >
-                🔗 查看 GitHub 项目
-              </a>
-            </div>
+      <div
+        className="portfolio-list"
+        ref={listRef}
+        onScroll={handleScroll}
+      >
+        {works.map((work, idx) => (
+          <div className="portfolio-item" key={idx}>
+            <h2>{work.detail}</h2>
           </div>
-        </div>
-      )}
-    </section>
+        ))}
+      </div>
+      <div
+        className="portfolio-thumbs"
+        onWheel={e => e.stopPropagation()}
+        onTouchMove={e => e.stopPropagation()}
+      >
+        {works.map((work, idx) => (
+          <img
+            key={idx}
+            ref={el => thumbsRef.current[idx] = el}
+            src={work.thumb}
+            alt=""
+            className={`portfolio-thumb${current === idx ? ' active' : ''}`}
+            style={{
+              cursor: 'pointer',
+              transform: current === idx ? 'rotate(-8deg) scale(1.1)' : 'none'
+            }}
+            onClick={() => handleThumbClick(idx)}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

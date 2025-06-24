@@ -153,3 +153,26 @@ img{
   animation: button-push 0.3s linear 1;
 }
 
+/* Portfolio Styles */
+.portfolio {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.portfolio-preview {
+  grid-column: 1 / 2;
+}
+
+.portfolio-list {
+  grid-column: 1 / 2;
+  overflow-y: auto;
+}
+
+.portfolio-thumbs {
+  grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
