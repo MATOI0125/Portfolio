@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import './Portfolio.css';
+import './portfolio.css';
 
 // TQ
 import TQ_FV from '../../assets/portfolio/TQ_FV.jpg';
