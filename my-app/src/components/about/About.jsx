@@ -1,7 +1,7 @@
 import React from 'react';
 import "./about.css";
 import Image from "../../assets/me1.png";
-import AboutBox from './AboutBox';
+
 
 
 const About = () => {
@@ -61,8 +61,6 @@ const About = () => {
                     </div>
                 </div>
             </div>
-        
-            <AboutBox />
         </section>
     )
 }
