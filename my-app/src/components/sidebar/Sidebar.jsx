@@ -1,42 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import "./sidebar.css";
 import logo from "../../assets/me.png";
 
-const Sidebar = () => {
-    return (
-        <aside className="aside">
-            <a href = "#home" className= "nav_logo">
-                <img src={logo} alt=""/>
-            </a>
-            
-            <nav className="nav">
-                <div className="nav_menu">
-                    <ul className="nav_list">
-                        <li className="nav_item">
-                            <a href = "#home" className= "nav_link">
-                            <i className="icon-home"></i></a>
-                        </li>                        
-                        <li className="nav_item">
-                            <a href = "#about" className= "nav_link">
-                            <i className="icon-user-following"></i></a>
-                        </li>
-                        <li className="nav_item">
-                            <a href = "#portfolio" className= "nav_link">
-                            <i className="icon-layers"></i></a>
-                        </li>
-                        <li className="nav_item">
-                            <a href = "#contact" className= "nav_link">
-                            <i className="icon-bubble"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+const navTips = [
+  "ここから見ましょう",
+  "シンハはどんな人なの？",
+  "ここは私の作品です",
+  "Let‘s Party🎉"
+];
 
-            <div className="nav_footer">
-                <span className="copyright">&copy; 2024～2025.</span>
-            </div>
-        </aside>
-    )
-}
+const Sidebar = () => {
+  const [hovered, setHovered] = useState(null);
+
+  return (
+    <aside className="aside">
+      <a href="#home" className="nav_logo">
+        <img src={logo} alt="" />
+      </a>
+
+      <nav className="nav">
+        <div className="nav_menu">
+          <ul className="nav_list">
+            {[
+              { href: "#home", icon: "icon-home", tip: navTips[0] },
+              { href: "#about", icon: "icon-user-following", tip: navTips[1] },
+              { href: "#portfolio", icon: "icon-layers", tip: navTips[2] },
+              { href: "#contact", icon: "icon-bubble", tip: navTips[3] }
+            ].map((item, idx) => (
+              <li
+                className="nav_item"
+                key={item.href}
+                onMouseEnter={() => setHovered(idx)}
+                onMouseLeave={() => setHovered(null)}
+                style={{ position: "relative" }}
+              >
+                <a href={item.href} className="nav_link">
+                  <i className={item.icon}></i>
+                </a>
+                {hovered === idx && (
+                  <span className="nav_tip_bubble">{item.tip}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      <div className="nav_footer">
+        <span className="copyright">&copy; 2024～2025.</span>
+      </div>
+    </aside>
+  );
+};
 
 export default Sidebar;

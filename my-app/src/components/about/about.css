@@ -7,6 +7,7 @@
 }
 
 .about_data{
+    display: grid;
     padding: 1.875rem;
     background-color: var(--container-color);
     box-shadow: var(--shadow);
